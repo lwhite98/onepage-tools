@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ConsentBanner from "@/components/ConsentBanner";
 import AnalyticsLoader from "@/components/AnalyticsLoader";
+import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
@@ -31,9 +32,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
         <header className="border-b">
           <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
-            <a href="/" className="font-semibold">OnePage.Tool</a>
+            <Link href="/" className="font-semibold">OnePage.Tool</Link>
             <nav aria-label="Main">
-              <a href="/" className="underline-offset-4 hover:underline">Home</a>
+              <Link href="/" className="underline-offset-4 hover:underline">Home</Link>
             </nav>
           </div>
         </header>
@@ -45,8 +46,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer className="mt-12 border-t">
           <div className="mx-auto max-w-5xl px-4 py-6 text-sm flex flex-wrap items-center gap-4">
             <span>© {new Date().getFullYear()} OnePage.Tool</span>
-            <a className="underline-offset-4 hover:underline" href="/privacy">Privacy</a>
-            <a className="underline-offset-4 hover:underline" href="/terms">Terms</a>
+            <Link href="/privacy" className="underline-offset-4 hover:underline">Privacy</Link>
+            <Link href="/terms" className="underline-offset-4 hover:underline">Terms</Link>
           </div>
         </footer>
       </body>

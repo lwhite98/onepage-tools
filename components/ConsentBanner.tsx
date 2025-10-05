@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getConsent, setConsent } from "@/lib/consent";
+import Link from "next/link";
 
 export default function ConsentBanner() {
   const [show, setShow] = useState(false);
@@ -45,7 +46,7 @@ export default function ConsentBanner() {
           </h2>
           <p className="m-0">
             We use analytics and may show ads. In the EEA/UK, these are blocked until
-            you choose. See our <a className="underline" href="/privacy">Privacy Policy</a>.
+            you choose. See our <Link href="/privacy" className="underline">Privacy Policy</Link>.
           </p>
         </div>
         <div className="flex gap-2">

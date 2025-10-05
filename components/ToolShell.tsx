@@ -1,15 +1,13 @@
 "use client";
 
-import { useState, useId, useMemo, useEffect } from "react";
+import { useState, useId } from "react";
 import { getToolBySlug } from "@/lib/tools";
-import type { Tool } from "@/lib/types";
 import AdSlot from "@/components/AdSlot";
 
 type Props = { slug: string };
 
 export default function ToolShell({ slug }: Props) {
-  const tool = getToolBySlug(slug);
-  if (!tool) return <p>Tool not found.</p>;
+  const tool = getToolBySlug(slug)!; // guaranteed by the server page
 
   const [values, setValues] = useState<Record<string, string>>({});
   const [result, setResult] = useState<string>("");
@@ -20,8 +18,8 @@ export default function ToolShell({ slug }: Props) {
     const next = { ...values, [id]: val };
     setValues(next);
     try {
-      const res = tool.compute(next);
-      setResult(res.result);
+      const res = tool.compute?.(next);
+      setResult(res?.result ?? "");
     } catch {
       setResult("");
     }
@@ -29,53 +27,41 @@ export default function ToolShell({ slug }: Props) {
 
   async function handleCopy() {
     if (!result) return;
-    try {
-      await navigator.clipboard.writeText(result);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      console.error("Copy failed");
-    }
+    await navigator.clipboard.writeText(result);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
   }
-
-  const form = useMemo(
-    () => (
-      <form className="grid gap-4 max-w-sm">
-        {tool.inputs.map((input) => (
-          <div key={input.id} className="grid gap-1">
-            <label htmlFor={input.id} className="font-medium">
-              {input.label}
-            </label>
-            <input
-              id={input.id}
-              name={input.id}
-              type={input.type}
-              min={input.min}
-              max={input.max}
-              step={input.step}
-              placeholder={input.placeholder}
-              className="w-full rounded border px-2 py-2"
-              onChange={(e) => handleChange(input.id, e.target.value)}
-              aria-describedby={result ? resultId : undefined}
-            />
-          </div>
-        ))}
-      </form>
-    ),
-    [tool.inputs, resultId, result]
-  );
 
   return (
     <section className="grid gap-8">
-      {/* Title & Description */}
       <header className="prose max-w-none">
         <h1>{tool.title}</h1>
         <p>{tool.description}</p>
       </header>
 
-      {/* Inputs + Result (aria-live) */}
       <div className="grid gap-2 max-w-sm">
-        {form}
+        <form className="grid gap-4">
+          {tool.inputs?.map((input) => (
+            <div key={input.id} className="grid gap-1">
+              <label htmlFor={input.id} className="font-medium">
+                {input.label}
+              </label>
+              <input
+                id={input.id}
+                name={input.id}
+                type={input.type}
+                min={input.min}
+                max={input.max}
+                step={input.step}
+                placeholder={input.placeholder}
+                className="w-full rounded border px-2 py-2"
+                onChange={(e) => handleChange(input.id, e.target.value)}
+                aria-describedby={result ? resultId : undefined}
+              />
+            </div>
+          ))}
+        </form>
+
         <div
           id={resultId}
           role="status"
@@ -94,10 +80,7 @@ export default function ToolShell({ slug }: Props) {
           )}
         </div>
         {copied && (
-          <p
-            aria-live="polite"
-            className="text-green-700 text-sm animate-fadeIn"
-          >
+          <p aria-live="polite" className="text-green-700 text-sm animate-fadeIn">
             ✅ Copied to clipboard
           </p>
         )}
@@ -110,10 +93,10 @@ export default function ToolShell({ slug }: Props) {
           dangerouslySetInnerHTML={{ __html: tool.contentHtml }}
         />
       ) : null}
-      
-      {/* 👇 Add a mid-page ad placeholder */}
+
+      {/* Mid-page ad */}
       <AdSlot name="tool-mid" height={120} />
-      
+
       {/* FAQ */}
       {tool.faq?.length ? (
         <section className="prose max-w-none">
@@ -129,9 +112,8 @@ export default function ToolShell({ slug }: Props) {
         </section>
       ) : null}
 
-      {/* 👇 Add a bottom ad placeholder */}
+      {/* Bottom ad */}
       <AdSlot name="tool-bottom" height={250} />
-
     </section>
   );
 }
