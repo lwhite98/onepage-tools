@@ -53,8 +53,8 @@
   textarea,
   select {
     @apply border border-[--color-gray-200] rounded-lg px-3 py-2
-           focus:outline-none focus:ring-2 focus:ring-[color:oklch(from var(--color-primary) l c h / 0.2)]
-           focus:border-[--color-primary] transition;
+           focus:outline-none focus:ring-2 focus:ring-[color:var(--color-primary)]/20
+           focus:border-[color:var(--color-primary)] transition;
   }
 
   button {
