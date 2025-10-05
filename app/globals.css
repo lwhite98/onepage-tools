@@ -1,47 +1,79 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
-/* (optional) a tiny reset for nicer defaults */
-:root { color-scheme: light dark; }
+/* ===============================
+   🎨 Custom Theme Tokens (Tailwind v4)
+   =============================== */
+@theme {
+  /* Fonts map to the font variables from layout.tsx */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-mono: var(--font-mono), ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Brand colors */
+  --color-primary: #4F46E5; /* Indigo 600 */
+  --color-primary-500: #6366F1;
+  --color-primary-600: #4F46E5;
+  --color-primary-700: #4338CA;
+
+  --color-accent: #10B981; /* Emerald 500 */
+  --color-accent-400: #34D399;
+  --color-accent-600: #059669;
+
+  --color-gray-50:  #F9FAFB;
+  --color-gray-100: #F3F4F6;
+  --color-gray-200: #E5E7EB;
+  --color-gray-300: #D1D5DB;
+  --color-gray-800: #1F2937;
+  --color-gray-900: #111827;
+
+  --color-error: #EF4444;
 }
 
-/* optional test style */
-main {
-  background: var(--background);
-  color: var(--foreground);
-}
+/* ===============================
+   🧩 Base Global Styles
+   =============================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  body {
+    @apply font-sans bg-white text-[--color-gray-800] antialiased;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  a {
+    @apply text-[--color-primary] hover:text-[--color-primary-700] transition-colors;
+  }
+
+  /* Inputs / selects / buttons shared look */
+  input,
+  textarea,
+  select {
+    @apply border border-[--color-gray-200] rounded-lg px-3 py-2
+           focus:outline-none focus:ring-2 focus:ring-[color:oklch(from var(--color-primary) l c h / 0.2)]
+           focus:border-[--color-primary] transition;
+  }
+
+  button {
+    @apply bg-[--color-primary] text-white font-medium px-4 py-2 rounded-lg
+           hover:bg-[--color-primary-700] transition;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
-}
+/* ===============================
+   ✨ Accessibility & Motion
+   =============================== */
 
-/* Visible focus outline */
+/* Focus ring for keyboard nav */
 :focus-visible {
   outline: 2px solid currentColor;
   outline-offset: 2px;
 }
 
+/* Small fade-in helper animation */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }

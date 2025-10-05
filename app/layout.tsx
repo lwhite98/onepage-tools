@@ -1,12 +1,18 @@
 // app/layout.tsx
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ConsentBanner from "@/components/ConsentBanner";
 import AnalyticsLoader from "@/components/AnalyticsLoader";
 import Link from "next/link";
 
-const inter = Inter({ subsets: ["latin"], display: "swap" });
+const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-mono",
+});
+
 
 export const metadata: Metadata = {
   title: "OnePage.Tool",
@@ -15,8 +21,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full">
-      <body className={`${inter.className} min-h-screen bg-white text-neutral-900 antialiased`}>
+    <html lang="en" className={`${inter.variable} ${jetbrains.variable} h-full`}>
+      <body className="font-sans min-h-screen bg-white text-gray-800 antialiased">
         <a
           href="#content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 rounded bg-black px-3 py-2 text-white"
