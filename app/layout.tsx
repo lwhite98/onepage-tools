@@ -4,7 +4,9 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import ConsentBanner from "@/components/ConsentBanner";
 import AnalyticsLoader from "@/components/AnalyticsLoader";
-import Link from "next/link";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import Providers from "@/components/Providers"; // <-- this already wraps ThemeProvider
 
 const inter = Inter({ subsets: ["latin"], display: "swap", variable: "--font-inter" });
 const jetbrains = JetBrains_Mono({
@@ -13,7 +15,6 @@ const jetbrains = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-
 export const metadata: Metadata = {
   title: "OnePage.Tool",
   description: "Lightweight, fast web tools with accessible UX.",
@@ -21,41 +22,32 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${inter.variable} ${jetbrains.variable} h-full`}>
-      <body className="font-sans min-h-screen bg-white text-gray-800 antialiased">
-        <a
-          href="#content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 rounded bg-black px-3 py-2 text-white"
-        >
-          Skip to content
-        </a>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${inter.variable} ${jetbrains.variable} font-sans min-h-screen antialiased`}
+      >
+        <Providers>
+          <a
+            href="#content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 rounded bg-black px-3 py-2 text-white"
+          >
+            Skip to content
+          </a>
 
-        {/* Load analytics only if consent is already granted */}
-        <AnalyticsLoader />
+          {/* Load analytics only if consent is already granted */}
+          <AnalyticsLoader />
 
-        {/* Consent banner appears until the user chooses */}
-        <ConsentBanner />
+          {/* Consent banner appears until the user chooses */}
+          <ConsentBanner />
 
-        <header className="border-b">
-          <div className="mx-auto max-w-5xl px-4 py-3 flex items-center justify-between">
-            <Link href="/" className="font-semibold">OnePage.Tool</Link>
-            <nav aria-label="Main">
-              <Link href="/" className="underline-offset-4 hover:underline">Home</Link>
-            </nav>
-          </div>
-        </header>
+          <Header />
 
-        <main id="content" className="mx-auto max-w-5xl px-4 py-8">
-          {children}
-        </main>
+          <main id="content" className="mx-auto max-w-5xl px-4 py-8">
+            {children}
+          </main>
 
-        <footer className="mt-12 border-t">
-          <div className="mx-auto max-w-5xl px-4 py-6 text-sm flex flex-wrap items-center gap-4">
-            <span>© {new Date().getFullYear()} OnePage.Tool</span>
-            <Link href="/privacy" className="underline-offset-4 hover:underline">Privacy</Link>
-            <Link href="/terms" className="underline-offset-4 hover:underline">Terms</Link>
-          </div>
-        </footer>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );

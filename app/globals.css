@@ -44,6 +44,26 @@
     @apply font-sans bg-white text-[--color-gray-800] antialiased;
   }
 
+    /* Dark theme overrides */
+  .dark body {
+    @apply bg-[--color-gray-900] text-[--color-gray-50];
+  }
+
+  .dark a {
+    @apply text-[--color-accent-400] hover:text-[--color-accent-600];
+  }
+
+  .dark input,
+  .dark textarea,
+  .dark select {
+    @apply border-[--color-gray-800] bg-[--color-gray-900] text-[--color-gray-50]
+           focus:ring-[color:var(--color-accent)]/30 focus:border-[color:var(--color-accent)];
+  }
+
+  .dark button {
+    @apply bg-[--color-accent] text-white hover:bg-[--color-accent-600];
+  }
+
   a {
     @apply text-[--color-primary] hover:text-[--color-primary-700] transition-colors;
   }
@@ -81,4 +101,61 @@
 
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-in-out;
+}
+
+@layer components {
+  .shadow-soft { @apply shadow-sm; }
+  .focus-ring { @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-[--color-primary]/40; }
+
+  /* Header surface */
+  .site-header {
+    @apply sticky top-0 z-40 border-b border-zinc-200
+          bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60;
+  }
+  .dark .site-header {
+    @apply border-zinc-800 bg-zinc-900/70 supports-[backdrop-filter]:bg-zinc-900/50;
+  }
+
+  /* Card surface */
+  .surface {
+    @apply rounded-2xl border border-zinc-200 shadow-sm
+          bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60;
+  }
+  .dark .surface {
+    @apply border-zinc-800 bg-zinc-900/70 supports-[backdrop-filter]:bg-zinc-900/50;
+  }
+
+  .btn-muted { @apply text-sm rounded border px-2 py-1 ml-2 bg-transparent text-current hover:bg-neutral-100; }
+  .dark .btn-muted { @apply hover:bg-zinc-800; }
+  
+  /* Neutral panel (for “Result” box) */
+  .panel {
+    @apply rounded border border-zinc-200 bg-neutral-50;
+  }
+  .dark .panel {
+    @apply border-zinc-700 bg-zinc-900/60 text-zinc-100;
+  }
+
+  /* Light/Dark divider border */
+  .divider { @apply border-t border-zinc-200; }
+  .dark .divider { @apply border-zinc-800; }
+
+  .dark .prose {
+    --tw-prose-body: theme(colors.zinc.200);
+    --tw-prose-headings: theme(colors.zinc.50);
+    --tw-prose-links: theme(colors.emerald.400);
+    --tw-prose-bold: theme(colors.zinc.50);
+    --tw-prose-counters: theme(colors.zinc.400);
+    --tw-prose-bullets: theme(colors.zinc.700);
+    --tw-prose-hr: theme(colors.zinc.800);
+    --tw-prose-quotes: theme(colors.zinc.50);
+    --tw-prose-quote-borders: theme(colors.zinc.700);
+    --tw-prose-captions: theme(colors.zinc.400);
+    --tw-prose-code: theme(colors.zinc.100);
+    --tw-prose-pre-code: theme(colors.zinc.100);
+    --tw-prose-pre-bg: theme(colors.zinc.900);
+    --tw-prose-th-borders: theme(colors.zinc.700);
+    --tw-prose-td-borders: theme(colors.zinc.800);
+  }    
+
 }
