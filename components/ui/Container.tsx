@@ -1,6 +1,7 @@
+import type * as React from "react";
 import { cn } from "@/lib/utils"; // if you don’t have cn yet, replace cn(...) with [className strings]. See note below.
 
-type Props = React.PropsWithChildren<{ className?: string; as?: keyof JSX.IntrinsicElements }>;
+type Props = React.PropsWithChildren<{ className?: string; as?: keyof React.JSX.IntrinsicElements}>;
 
 export default function Container({ as: Tag = "div", className, children }: Props) {
   return (

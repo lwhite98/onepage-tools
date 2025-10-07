@@ -1,8 +1,9 @@
+import type * as React from "react";
 import { cn } from "@/lib/utils";
 
 type Props = React.PropsWithChildren<{
   className?: string;
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   title?: string;
   subtitle?: string;
   footer?: React.ReactNode;
